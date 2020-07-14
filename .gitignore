@@ -317,3 +317,10 @@ tags
 [._]*.un~
 
 # End of https://www.toptal.com/developers/gitignore/api/ruby,rails,emacs,react,node,vim
+
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
