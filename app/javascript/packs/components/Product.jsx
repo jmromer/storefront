@@ -7,8 +7,11 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 
 import RatingIndicator from './RatingIndicator'
+import { useStyles } from '../styles'
 
-function Product ({ product, styles }) {
+function Product ({ product }) {
+  const styles = useStyles()
+
   return (
     <Card className={styles.productRoot}>
       <CardActionArea>
