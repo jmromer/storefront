@@ -14,4 +14,8 @@ class ProductDecorator < ApplicationDecorator
 
     h.url_for(image)
   end
+
+  def star_url
+    h.asset_path("star.svg")
+  end
 end
