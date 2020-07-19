@@ -7,18 +7,8 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
 
 import RatingIndicator from './RatingIndicator'
+import AddToCartButton from './AddToCartButton'
 import { useStyles } from '../styles'
-
-import Button from '@material-ui/core/Button'
-
-function AddToCartButton ({ inCart }) {
-  const styles = useStyles()
-  return (
-    <Button variant='contained' color='secondary' className={styles.cartButton}>
-      {inCart ? 'Remove from cart' : 'Add to cart'}
-    </Button>
-  )
-}
 
 function Product ({ product }) {
   const styles = useStyles()
