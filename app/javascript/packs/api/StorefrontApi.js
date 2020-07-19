@@ -18,6 +18,7 @@ class StorefrontApi {
     try {
       const resp = await window.fetch(this.cartUrl)
       const cart = await resp.json()
+      this.cartId = cart.id
       this.cartUrl = cart.url
       this.updateUrl = cart.update_url
       return cart
@@ -34,6 +35,7 @@ class StorefrontApi {
         headers: this.headers
       })
       const cart = await resp.json()
+      this.cartId = cart.id
       this.cartUrl = cart.url
       this.updateUrl = cart.update_url
       return cart
