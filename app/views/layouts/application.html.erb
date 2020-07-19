@@ -11,6 +11,7 @@
     <%= stylesheet_pack_tag "application" %>
 
     <%= yield :head if content_for?(:head) %>
+    <%= content_tag :div, nil, id: "cartsUrl", data: {carts_url: api_carts_url} %>
   </head>
 
   <body>

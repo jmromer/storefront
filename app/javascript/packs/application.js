@@ -14,3 +14,5 @@
 // below.
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
+
+window.csrfToken = document.querySelector('[name=csrf-token]').content

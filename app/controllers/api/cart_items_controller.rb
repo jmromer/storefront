@@ -8,7 +8,10 @@ module Api
       @cart_item = CartItem.new(cart_item_params)
 
       if @cart_item.save
-        render :create, format: :json, status: :created
+        render partial: "api/carts/cart",
+               format: :json,
+               status: :created,
+               locals: { cart: @cart_item.cart }
       else
         render json: { errors: @cart_item.errors.full_messages },
                status: :unprocessable_entity

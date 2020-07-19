@@ -11,9 +11,11 @@ import AddToCartButton from './AddToCartButton'
 import { useStyles } from '../styles'
 
 function Product ({ product }) {
+  const cart = window.shoppingCart
   const styles = useStyles()
-  const [inCart, setInCart] = useState(false)
+
   const [isHovered, setIsHovered] = useState(false)
+  const [isInCart, setIsInCart] = useState(cart.containsProduct(product.id))
 
   return (
     <div
@@ -21,8 +23,14 @@ function Product ({ product }) {
       onMouseLeave={() => setIsHovered(false)}
     >
       <Card className={styles.productRoot}>
-        {inCart ? <div className={styles.inCart}>In Cart</div> : ''}
-        {isHovered ? <AddToCartButton inCart={inCart} /> : ''}
+        {isInCart && <div className={styles.inCart}>In Cart</div>}
+        {isHovered && (
+          <AddToCartButton
+            inCart={isInCart}
+            productId={product.id}
+            setIsInCart={setIsInCart}
+          />
+        )}
         <CardActionArea className={isHovered ? styles.overlay : ''}>
           <CardMedia className={styles.media} image={product.image_url} />
           <div className={styles.separator} />
