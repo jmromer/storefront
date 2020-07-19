@@ -1,1 +1,18 @@
-<%= javascript_pack_tag "products_index" %>
+<%#= javascript_pack_tag "products_index" %>
+
+<h1>All products</h1>
+
+<% @products.each do |product| %>
+    <div>
+        <%= image_tag product.image %>
+        <div>
+            <%= product.name %>
+        </div>
+        <div>
+            <%= number_to_currency(product.price) %>
+        </div>
+        <div>
+            <%= product.rating %>
+        </div>
+    </div>
+<% end %>
