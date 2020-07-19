@@ -6,33 +6,24 @@ Installation
 
 This app uses ASDF for version management. To install dependencies using ASDF,
 issue `asdf install` from the project root. Install library dependencies with
-`bin/setup`.
-
-Usage
--------
-
+`bin/setup`. The database can be seeded with `bin/rails db:seed`.
 
 Dependencies
 ------------
 
 - Ruby
 - Rails
-- PostgreSQL
-- React.js
 - RSpec
-- Material UI (responsive)
+- PostgreSQL
+- Webpacker
+- React.js
+- Material UI
 
 Versions in `.tool-versions`.
-
-Views
---------
-
-- Product index / selection
-- Shopping Cart
 
 Features
 --------
 
-- Add new products to inventory
-- Add/remove products to cart from product index
+- Add new products to the inventory via a bare-bones UI: `/products/new`
+- Add/remove products to cart from the product index
 - Indicate which products are currently in cart
