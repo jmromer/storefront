@@ -9,35 +9,41 @@ import Typography from '@material-ui/core/Typography'
 import RatingIndicator from './RatingIndicator'
 import { useStyles } from '../styles'
 
+const handleMouseEnter = e => {
+  // toggle action overlay on product
+}
+
 function Product ({ product }) {
   const styles = useStyles()
   const [inCart, setInCart] = useState(false)
 
   return (
-    <Card className={styles.productRoot}>
-      {inCart ? <div className={styles.inCart}>In Cart</div> : ''}
-      <CardActionArea>
-        <CardMedia className={styles.media} image={product.image_url} />
-        <div className={styles.separator} />
-        <CardContent className={styles.content}>
-          <Typography
-            className={styles.bold}
-            variant='body1'
-            color='textSecondary'
-            component='p'
-          >
-            {product.name}
-          </Typography>
-          <Typography variant='body1' color='textSecondary' component='p'>
-            {product.price}
-          </Typography>
-          <RatingIndicator
-            rating={product.rating}
-            indicatorUrl={product.star_url}
-          />
-        </CardContent>
-      </CardActionArea>
-    </Card>
+    <div onMouseEnter={handleMouseEnter}>
+      <Card className={styles.productRoot}>
+        {inCart ? <div className={styles.inCart}>In Cart</div> : ''}
+        <CardActionArea>
+          <CardMedia className={styles.media} image={product.image_url} />
+          <div className={styles.separator} />
+          <CardContent className={styles.content}>
+            <Typography
+              className={styles.bold}
+              variant='body1'
+              color='textSecondary'
+              component='p'
+            >
+              {product.name}
+            </Typography>
+            <Typography variant='body1' color='textSecondary' component='p'>
+              {product.price}
+            </Typography>
+            <RatingIndicator
+              rating={product.rating}
+              indicatorUrl={product.star_url}
+            />
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    </div>
   )
 }
 

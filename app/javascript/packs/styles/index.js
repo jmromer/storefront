@@ -9,7 +9,11 @@ const useStyles = makeStyles(() => ({
     flexGrow: 1,
     padding: 10,
     position: 'relative',
-    overflow: 'visible'
+    overflow: 'visible',
+    '&:hover': {
+      backgroundColor: '#fff',
+      opacity: '50%'
+    }
   },
   inCart: {
     backgroundColor: '#ED6D51',
