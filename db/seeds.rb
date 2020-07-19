@@ -1,38 +1,35 @@
 # frozen_string_literal: true
 
-products = {
-  blue: {
+product_attrs = [
+  {
     name: "Blue Flower",
     price_cents: 80_00,
     rating: 4,
+    filename: "blue-flower.png",
   },
-  orange: {
+  {
     name: "Orange Flower",
     price_cents: 17_60,
     rating: 3,
+    filename: "orange-flower.png",
   },
-  pink: {
+  {
     name: "Pink Flower",
     price_cents: 40_00,
     rating: 3,
+    filename: "pink-flower.png",
   },
-}.map { |prod, attrs| [prod, Product.create(attrs)] }.to_h
+]
 
-# attach images
-products[:blue].image.attach(
-  io: File.open(Rails.root.join("app/assets/images/blue-flower.png")),
-  filename: "blue-flower.png",
-  content_type: "application/png",
-)
+3.times do
+  product_attrs.each do |attrs|
+    product = Product.create(attrs.except(:filename))
+    filename = attrs[:filename]
 
-products[:orange].image.attach(
-  io: File.open(Rails.root.join("app/assets/images/orange-flower.png")),
-  filename: "orange-flower.png",
-  content_type: "application/png",
-)
-
-products[:pink].image.attach(
-  io: File.open(Rails.root.join("app/assets/images/pink-flower.png")),
-  filename: "pink-flower.png",
-  content_type: "application/png",
-)
+    product.image.attach(
+      io: File.open(Rails.root.join("app/assets/images/#{filename}")),
+      filename: filename,
+      content_type: "application/png",
+    )
+  end
+end
