@@ -1,18 +1,15 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Button } from '@material-ui/core'
 
-function App ({ products }) {
-  console.log(products[0])
-
+function ProductListing ({ products }) {
   return (
     <div>
       {products.map(product => {
         return (
           <div key={product.id}>
-            <div>{product.image}</div>
+            <img alt={product.name} src={product.image_url} />
             <div>{product.name}</div>
-            <div>{product.price_cents}</div>
+            <div>{product.price}</div>
             <div>{product.rating}</div>
           </div>
         )
@@ -25,5 +22,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('products')
   const products = JSON.parse(container.dataset.products)
 
-  ReactDOM.render(<App products={products} />, container)
+  ReactDOM.render(<ProductListing products={products} />, container)
 })
