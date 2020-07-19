@@ -1,8 +1,11 @@
 <%#= javascript_pack_tag "products_index" %>
 
-<h1>All products</h1>
+<%= content_tag :div,
+     id: "products",
+     data: @products.to_json do %>
+<% end %>
 
-<% @products.each do |product| %>
+<%# @products.each do |product| %>
     <div>
         <% if product.image.attached? %>
             <%= image_tag product.image %>
@@ -19,4 +22,4 @@
             <%= product.rating %>
         </div>
     </div>
-<% end %>
+<%# end %>
