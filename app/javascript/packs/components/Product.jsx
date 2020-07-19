@@ -9,19 +9,31 @@ import Typography from '@material-ui/core/Typography'
 import RatingIndicator from './RatingIndicator'
 import { useStyles } from '../styles'
 
-const handleMouseEnter = e => {
-  // toggle action overlay on product
+import Button from '@material-ui/core/Button'
+
+function AddToCartButton ({ inCart }) {
+  const styles = useStyles()
+  return (
+    <Button variant='contained' color='secondary' className={styles.cartButton}>
+      {inCart ? 'Remove from cart' : 'Add to cart'}
+    </Button>
+  )
 }
 
 function Product ({ product }) {
   const styles = useStyles()
   const [inCart, setInCart] = useState(false)
+  const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div onMouseEnter={handleMouseEnter}>
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <Card className={styles.productRoot}>
         {inCart ? <div className={styles.inCart}>In Cart</div> : ''}
-        <CardActionArea>
+        {isHovered ? <AddToCartButton inCart={inCart} /> : ''}
+        <CardActionArea className={isHovered ? styles.overlay : ''}>
           <CardMedia className={styles.media} image={product.image_url} />
           <div className={styles.separator} />
           <CardContent className={styles.content}>

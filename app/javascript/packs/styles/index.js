@@ -6,14 +6,17 @@ const useStyles = makeStyles(() => ({
     margin: '20px auto'
   },
   productRoot: {
+    alignItems: 'center',
+    display: 'flex',
     flexGrow: 1,
-    padding: 10,
-    position: 'relative',
+    justifyContent: 'center',
     overflow: 'visible',
-    '&:hover': {
-      backgroundColor: '#fff',
-      opacity: '50%'
-    }
+    padding: 10,
+    position: 'relative'
+  },
+  overlay: {
+    backgroundColor: '#fff',
+    opacity: '50%'
   },
   inCart: {
     backgroundColor: '#ED6D51',
@@ -28,7 +31,8 @@ const useStyles = makeStyles(() => ({
     textAlign: 'center',
     top: '-15px',
     verticalAlign: 'middle',
-    width: '50px'
+    width: '50px',
+    zIndex: 99
   },
   media: {
     height: 250
@@ -47,6 +51,17 @@ const useStyles = makeStyles(() => ({
   },
   card: {
     margin: 0.5
+  },
+  cartButton: {
+    backgroundColor: '#55df85 !important',
+    color: 'white',
+    lineHeight: '20px',
+    margin: '10px',
+    padding: '5px',
+    position: 'absolute',
+    textAlign: 'center',
+    textTransform: 'initial !important',
+    zIndex: 99
   }
 }))
 
