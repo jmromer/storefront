@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid'
 
 import Product from './Product'
 import { useStyles } from '../styles'
+import eachSlice from '../utils/eachSlice'
 
 function ProductRow ({ products }) {
   const styles = useStyles()
@@ -22,15 +23,16 @@ function ProductRow ({ products }) {
 
 function ProductListing ({ products }) {
   const styles = useStyles()
+  const productRows = eachSlice(products, 3)
 
   return (
     <>
       <CssBaseline />
       <Container maxWidth='md'>
         <Grid container spacing={1} className={styles.root}>
-          <ProductRow products={products.slice(0, 3)} />
-          <ProductRow products={products.slice(3, 6)} />
-          <ProductRow products={products.slice(6, 9)} />
+          {productRows.map(productRow => (
+            <ProductRow key={Math.random(10)} products={productRow} />
+          ))}
         </Grid>
       </Container>
     </>
