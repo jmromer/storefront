@@ -10,7 +10,7 @@ RSpec.describe "/:cart/cart_items", type: :request do
         cart = create(:cart)
 
         req = lambda do
-          post cart_cart_items_url(cart),
+          post api_cart_cart_items_url(cart),
                params: { cart_item: { product_id: product.id, cart_id: cart.id } }
         end
 
@@ -25,7 +25,7 @@ RSpec.describe "/:cart/cart_items", type: :request do
         cart = create(:cart)
 
         req = lambda do
-          post cart_cart_items_url(cart),
+          post api_cart_cart_items_url(cart),
                params: { cart_item: { product_id: 99, cart_id: cart.id } }
         end
 
@@ -41,7 +41,7 @@ RSpec.describe "/:cart/cart_items", type: :request do
     it "destroys the requested cart_item" do
       cart_item = create(:cart_item)
       expect {
-        delete cart_cart_item_url(cart_item.cart, cart_item)
+        delete api_cart_cart_item_url(cart_item.cart, cart_item)
       }.to change(CartItem, :count).by(-1)
     end
   end

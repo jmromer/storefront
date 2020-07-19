@@ -2,12 +2,13 @@
 
 Rails.application.routes.draw do
   resources :home, only: :index
+  resources :products, only: %i[new create]
 
-  resources :cart, only: %i[show] do
-    resources :cart_items, only: %i[create destroy]
+  namespace :api, defaults: { format: :json } do
+    resources :carts, only: %i[create show] do
+      resources :cart_items, only: %i[create destroy]
+    end
   end
-
-  resources :products, only: %i[index new create]
 
   root to: "home#index"
 end
