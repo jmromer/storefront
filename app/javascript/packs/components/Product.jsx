@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -11,9 +11,11 @@ import { useStyles } from '../styles'
 
 function Product ({ product }) {
   const styles = useStyles()
+  const [inCart, setInCart] = useState(false)
 
   return (
     <Card className={styles.productRoot}>
+      {inCart ? <div className={styles.inCart}>In Cart</div> : ''}
       <CardActionArea>
         <CardMedia className={styles.media} image={product.image_url} />
         <div className={styles.separator} />

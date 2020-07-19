@@ -7,7 +7,24 @@ const useStyles = makeStyles(() => ({
   },
   productRoot: {
     flexGrow: 1,
-    padding: 10
+    padding: 10,
+    position: 'relative',
+    overflow: 'visible'
+  },
+  inCart: {
+    backgroundColor: '#ED6D51',
+    borderRadius: '50%',
+    color: 'white',
+    float: 'left',
+    fontSize: '8pt',
+    height: '50px',
+    left: '-15px',
+    lineHeight: '50px',
+    position: 'absolute',
+    textAlign: 'center',
+    top: '-15px',
+    verticalAlign: 'middle',
+    width: '50px'
   },
   media: {
     height: 250
