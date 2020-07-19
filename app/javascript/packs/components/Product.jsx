@@ -15,11 +15,7 @@ function Product ({ product }) {
   return (
     <Card className={styles.productRoot}>
       <CardActionArea>
-        <CardMedia
-          className={styles.media}
-          image={product.image_url}
-          title={product.name}
-        />
+        <CardMedia className={styles.media} image={product.image_url} />
         <div className={styles.separator} />
         <CardContent className={styles.content}>
           <Typography
