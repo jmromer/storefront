@@ -21,9 +21,9 @@ product_attrs = [
   },
 ]
 
-3.times do
+(1..10).each do |n|
   product_attrs.each do |attrs|
-    product = Product.create(attrs.except(:filename))
+    product = Product.create(attrs.merge(name: "#{attrs[:name]} #{n}").except(:filename))
     filename = attrs[:filename]
 
     product.image.attach(
