@@ -6,7 +6,6 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "2.7.1"
 
-gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "draper"
 gem "jbuilder", "~> 2.7"
@@ -15,6 +14,11 @@ gem "puma", "~> 4.1"
 gem "rails", "~> 6.0.3", ">= 6.0.3.2"
 gem "sass-rails", ">= 6"
 gem "webpacker"
+
+group :production do
+  gem "aws-sdk-s3", require: false
+  gem "newrelic_rpm"
+end
 
 group :development do
   gem "listen", "~> 3.2"
