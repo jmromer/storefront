@@ -1,16 +1,11 @@
-import Card from '@material-ui/core/Card'
-import CardActionArea from '@material-ui/core/CardActionArea'
-import CardContent from '@material-ui/core/CardContent'
-import CardMedia from '@material-ui/core/CardMedia'
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 
-import RatingIndicator from './components/RatingIndicator'
+import Product from './components/Product'
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -41,40 +36,6 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-function Product ({ product }) {
-  const classes = useStyles()
-
-  return (
-    <Card className={classes.productRoot}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image={product.image_url}
-          title={product.name}
-        />
-        <div className={classes.separator} />
-        <CardContent className={classes.content}>
-          <Typography
-            className={classes.bold}
-            variant='body1'
-            color='textSecondary'
-            component='p'
-          >
-            {product.name}
-          </Typography>
-          <Typography variant='body1' color='textSecondary' component='p'>
-            {product.price}
-          </Typography>
-          <RatingIndicator
-            rating={product.rating}
-            indicatorUrl={product.star_url}
-          />
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  )
-}
-
 function ProductRow ({ products }) {
   const classes = useStyles()
 
@@ -82,7 +43,7 @@ function ProductRow ({ products }) {
     <Grid container item xs={12} spacing={3} className={classes.card}>
       {products.map(product => (
         <Grid item xs={4} key={product.id}>
-          <Product product={product} />
+          <Product product={product} styles={classes} />
         </Grid>
       ))}
     </Grid>
