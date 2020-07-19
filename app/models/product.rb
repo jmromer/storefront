@@ -3,13 +3,11 @@
 class Product < ApplicationRecord
   validates :name, :price_cents, presence: true
   validates :price_cents, numericality: { greater_than: 0 }
-  validates :rating, numericality: {
+  validates :rating,
+            numericality: {
               greater_than_or_equal_to: 1,
-              less_than_or_equal_to: 5
+              less_than_or_equal_to: 5,
             }, if: -> { rating.present? }
-  has_one_attached :image
 
-  def price
-    (price_cents.to_f / 100).round(2)
-  end
+  has_one_attached :image
 end
