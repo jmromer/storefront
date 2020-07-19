@@ -2,8 +2,6 @@
 
 module Api
   class CartItemsController < ApiController
-    before_action :set_cart_item, only: %i[destroy]
-
     def create
       @cart_item = CartItem.new(cart_item_params)
 
@@ -19,15 +17,26 @@ module Api
     end
 
     def destroy
-      @cart_item.destroy
-      head :ok
+      @cart_item = CartItem.find_by(id: params[:id])
+
+      if @cart_item&.destroy
+        render partial: "api/carts/cart",
+               format: :json,
+               status: :ok,
+               locals: { cart: @cart_item&.cart }
+      else
+        errors =
+          if @cart_item.blank?
+            ["Cart item not found."]
+          else
+            @cart_item.errors.full_messages
+          end
+
+        render json: { errors: errors }, status: :unprocessable_entity
+      end
     end
 
     private
-
-    def set_cart_item
-      @cart_item = CartItem.find(params[:id])
-    end
 
     def cart_item_params
       params

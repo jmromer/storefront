@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Storefront</title>
+    <title>storefront</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <link rel="stylesheet"
@@ -11,7 +11,7 @@
     <%= stylesheet_pack_tag "application" %>
 
     <%= yield :head if content_for?(:head) %>
-    <%= content_tag :div, nil, id: "cartsUrl", data: {carts_url: api_carts_url} %>
+    <%= content_tag :div, nil, id: "cartsUrl", data: { carts_url: api_carts_url } %>
   </head>
 
   <body>

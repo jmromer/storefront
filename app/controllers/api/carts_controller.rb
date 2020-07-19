@@ -3,8 +3,12 @@
 module Api
   class CartsController < ApiController
     def show
-      @cart = Cart.find(params[:id])
-      render :show, format: :json
+      @cart = Cart.find_by(id: params[:id])
+      if @cart.present?
+        render :show, format: :json
+      else
+        render json: { errors: ["Not found"] }, status: :not_found
+      end
     end
 
     def create

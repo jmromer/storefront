@@ -15,8 +15,8 @@ RSpec.describe "/:cart/cart_items", type: :request do
         end
 
         expect { req.call }.to change(CartItem, :count).by(1)
-        expect(response).to be_created
-        expect(response_json).to have_keys(%i[id cart_id product_id quantity])
+        expect(response).to have_http_status(:created)
+        expect(response_json).to have_keys(%i[id products cart_items url update_url])
       end
     end
 
@@ -38,11 +38,26 @@ RSpec.describe "/:cart/cart_items", type: :request do
   end
 
   describe "DELETE #destroy" do
-    it "destroys the requested cart_item" do
-      cart_item = create(:cart_item)
-      expect {
-        delete api_cart_cart_item_url(cart_item.cart, cart_item)
-      }.to change(CartItem, :count).by(-1)
+    context "given a found cart item" do
+      it "destroys the requested cart_item, returning the cart" do
+        cart_item = create(:cart_item)
+        expect {
+          delete api_cart_cart_item_url(cart_item.cart, cart_item)
+        }.to change(CartItem, :count).by(-1)
+        expect(response).to have_http_status(:ok)
+        expect(response_json).to have_keys(%i[id products cart_items url update_url])
+      end
+    end
+
+    context "given a cart item not found" do
+      it "destroys the requested cart_item, returning the cart" do
+        cart_item = create(:cart_item)
+        expect {
+          delete api_cart_cart_item_url(cart_item.cart, 999)
+        }.to change(CartItem, :count).by(0)
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response_json[:errors]).to include("Cart item not found.")
+      end
     end
   end
 end

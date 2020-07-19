@@ -41,8 +41,6 @@ class StorefrontApi {
 
   async addCartItem (productId) {
     try {
-      console.log(`requesting ${this.updateUrl}`)
-
       const resp = await window.fetch(this.updateUrl, {
         method: 'POST',
         headers: this.headers,
@@ -62,10 +60,12 @@ class StorefrontApi {
   async removeCartItem (itemId) {
     try {
       const url = `${this.updateUrl}/${itemId}`
-      await window.fetch(url, {
+      const resp = await window.fetch(url, {
         method: 'DELETE',
         headers: this.headers
       })
+      const cart = await resp.json()
+      return cart
     } catch (error) {
       console.error(`Failed removing cart item: ${itemId}`, error)
     }

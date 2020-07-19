@@ -24,13 +24,15 @@ class ShoppingCart {
   }
 
   async add (productId) {
-    await this.api.addCartItem(productId)
+    const cart = await this.api.addCartItem(productId)
+    cart.cart_items && this.updateCartItems(cart.cart_items)
     return this
   }
 
   async remove (productId) {
     const cartItemId = this.getCartItem(productId)
-    await this.api.removeCartItem(cartItemId)
+    const cart = await this.api.removeCartItem(cartItemId)
+    cart.cart_items && this.updateCartItems(cart.cart_items)
     return this
   }
 
