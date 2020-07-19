@@ -102,7 +102,7 @@ GEM
     hashdiff (1.0.1)
     i18n (1.8.3)
       concurrent-ruby (~> 1.0)
-    jazz_fingers (5.2.0)
+    jazz_fingers (5.2.1)
       awesome_print (~> 1.6)
       pry (~> 0.10)
       pry-byebug (~> 3.4)
