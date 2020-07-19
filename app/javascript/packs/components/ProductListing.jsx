@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Children } from 'react'
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
@@ -30,9 +30,11 @@ function ProductListing ({ products }) {
       <CssBaseline />
       <Container maxWidth='md'>
         <Grid container spacing={1} className={styles.root}>
-          {productRows.map(productRow => (
-            <ProductRow key={Math.random(10)} products={productRow} />
-          ))}
+          {Children.toArray(
+            productRows.map((productRow, i) => (
+              <ProductRow products={productRow} />
+            ))
+          )}
         </Grid>
       </Container>
     </>
