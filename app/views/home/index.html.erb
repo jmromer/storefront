@@ -1,3 +1,7 @@
-<%= javascript_pack_tag "product_listing" %>
+<% content_for :head do %>
+    <%= content_tag :script,
+     raw(json_escape(@products.to_json)),
+     id: "products" %>
+<% end %>
 
-<%= content_tag :div, nil, id: "products", data: { products: @products_json } %>
+<%= javascript_pack_tag "product_listing" %>

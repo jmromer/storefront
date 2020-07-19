@@ -133,7 +133,10 @@ function ProductListing ({ products }) {
 
 document.addEventListener('DOMContentLoaded', () => {
   const container = document.getElementById('products')
-  const products = JSON.parse(container.dataset.products)
+  const products = JSON.parse(container.text)
 
-  ReactDOM.render(<ProductListing products={products} />, container)
+  ReactDOM.render(
+    <ProductListing products={products} />,
+    document.getElementById('root')
+  )
 })
