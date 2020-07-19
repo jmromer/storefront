@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "/:cart/cart_items", type: :request do
+RSpec.describe "cart/:id/cart_items", type: :request do
   describe "POST #create" do
     context "with valid parameters" do
       it "creates a new CartItem" do
@@ -16,7 +16,7 @@ RSpec.describe "/:cart/cart_items", type: :request do
 
         expect { req.call }.to change(CartItem, :count).by(1)
         expect(response).to have_http_status(:created)
-        expect(response_json).to have_keys(%i[id products cart_items url update_url])
+        expect(response_json).to have_keys(cart_schema)
       end
     end
 
@@ -41,20 +41,26 @@ RSpec.describe "/:cart/cart_items", type: :request do
     context "given a found cart item" do
       it "destroys the requested cart_item, returning the cart" do
         cart_item = create(:cart_item)
-        expect {
+
+        req = lambda do
           delete api_cart_cart_item_url(cart_item.cart, cart_item)
-        }.to change(CartItem, :count).by(-1)
+        end
+
+        expect { req.call }.to change(CartItem, :count).by(-1)
         expect(response).to have_http_status(:ok)
-        expect(response_json).to have_keys(%i[id products cart_items url update_url])
+        expect(response_json).to have_keys(cart_schema)
       end
     end
 
     context "given a cart item not found" do
       it "destroys the requested cart_item, returning the cart" do
         cart_item = create(:cart_item)
-        expect {
+
+        req = lambda do
           delete api_cart_cart_item_url(cart_item.cart, 999)
-        }.to change(CartItem, :count).by(0)
+        end
+
+        expect { req.call }.to change(CartItem, :count).by(0)
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response_json[:errors]).to include("Cart item not found.")
       end
