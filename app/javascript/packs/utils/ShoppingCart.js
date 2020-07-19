@@ -1,56 +1,65 @@
-import StorefrontApi from '../api/StorefrontApi'
+import ShoppingCartApi from '../api/ShoppingCartApi'
 
+// Manages the client-side representation of the visitor's shopping cart
+// Composes over ShoppingCartApi, which communicates with the server and parses
+// its responses.
 class ShoppingCart {
   constructor ({ cartId, cartsUrl }) {
-    this.api = new StorefrontApi({ cartId, cartsUrl })
-    this.cartId = cartId
-    this.items = {}
+    this.api = new ShoppingCartApi({ cartId, cartsUrl })
+    // an index of products in the visitor's cart, mapping product ids to cart
+    // item ids
+    this.items = new Map()
   }
 
-  // fetch or create cart
+  // Fetch the current visitor's shopping cart, or create one if none exists.
   async load () {
     const cart = await this.api.getCart()
-    this.setCartId(cart.id)
-    this.updateCartItems(cart.cart_items)
+    this.updateSessionCartId(cart?.id)
+    this.updateCartItems(cart?.cart_items)
     return this
-  }
-
-  containsProduct (productId) {
-    return !!this.items[productId]
-  }
-
-  getCartItem (productId) {
-    return this.items[productId]
   }
 
   async add (productId) {
     const cart = await this.api.addCartItem(productId)
-    cart.cart_items && this.updateCartItems(cart.cart_items)
+    this.updateCartItems(cart?.cart_items)
     return this
   }
 
   async remove (productId) {
     const cartItemId = this.getCartItem(productId)
     const cart = await this.api.removeCartItem(cartItemId)
-    cart.cart_items && this.updateCartItems(cart.cart_items)
+    this.updateCartItems(cart?.cart_items)
     return this
   }
 
-  setCartId (cartId) {
-    if (cartId) {
-      this.cartId = cartId
-      window.sessionStorage.setItem('cartId', cartId)
-    }
-    return this
+  // Is the given product in the current visitor's shopping cart?
+  containsProduct (productId) {
+    return this.items.has(productId)
   }
 
+  // Given a `productId`, retrieve the corresponding cart item ID
+  // The latter is used to remove a product from the current visitor's cart.
+  getCartItem (productId) {
+    return this.items.get(productId)
+  }
+
+  // Update the session's shopping cart ID
+  updateSessionCartId (cartId) {
+    cartId
+      ? window.sessionStorage.setItem('cartId', cartId)
+      : window.sessionStorage.removeItem('cartId')
+  }
+
+  // Update the locally indexed products / cart items
   updateCartItems (cartItems) {
-    const items = {}
-    for (const item of cartItems) {
-      items[item.product_id] = item.id
+    const items = cartItems || []
+
+    const newItems = new Map()
+    for (const item of items) {
+      newItems.set(item.product_id, item.id)
     }
-    this.items = items
-    return this
+
+    this.items = newItems
   }
 }
 
