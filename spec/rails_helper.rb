@@ -50,3 +50,8 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+# FactoryBot
+RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+end

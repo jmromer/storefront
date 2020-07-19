@@ -15,13 +15,13 @@
     </div>
 
     <div>
-        <%= f.label :price, "Price" %>
-        <%= f.text_field :price %>
+        <%= f.label :price_cents, "Price (CAD)" %>
+        <%= f.text_field :price_cents %>
     </div>
 
     <div>
         <%= f.label :rating, "Rating" %>
-        <%= f.select :rating, options_for_select(1..5, 1..5) %>
+        <%= f.select :rating, (1..5).entries.unshift(nil) %>
     </div>
 
 

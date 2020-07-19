@@ -4,7 +4,11 @@
 
 <% @products.each do |product| %>
     <div>
-        <%= image_tag product.image %>
+        <% if product.image.attached? %>
+            <%= image_tag product.image %>
+        <% else %>
+            <%= image_tag default_product_image %>
+        <% end %>
         <div>
             <%= product.name %>
         </div>
