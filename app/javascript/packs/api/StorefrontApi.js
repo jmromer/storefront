@@ -11,6 +11,10 @@ class StorefrontApi {
   }
 
   async getCart () {
+    if (!this.cartUrl) {
+      return this.createCart()
+    }
+
     try {
       const resp = await window.fetch(this.cartUrl)
       const cart = await resp.json()
