@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Grid from '@material-ui/core/Grid'
-import React from 'react'
+import React, { Children } from 'react'
 import ReactDOM from 'react-dom'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
@@ -39,6 +39,33 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
+function RatingIndicator ({ rating, indicatorUrl, maxRating = 5 }) {
+  const style = {
+    background: `url(${indicatorUrl}) no-repeat top left`,
+    backgroundSize: 'contain',
+    display: 'inline-block',
+    height: '10px',
+    margin: '5px 2px',
+    width: '10px'
+  }
+
+  return (
+    <div>
+      {Children.toArray(
+        Array(maxRating)
+          .fill()
+          .map((_, i) =>
+            i < rating ? (
+              <div style={style} />
+            ) : (
+              <div style={{ ...style, filter: 'invert(0.75)' }} />
+            )
+          )
+      )}
+    </div>
+  )
+}
+
 function Product ({ product }) {
   const classes = useStyles()
 
@@ -63,9 +90,10 @@ function Product ({ product }) {
           <Typography variant='body1' color='textSecondary' component='p'>
             {product.price}
           </Typography>
-          <Typography variant='body1' color='textSecondary' component='p'>
-            {product.rating}
-          </Typography>
+          <RatingIndicator
+            rating={product.rating}
+            indicatorUrl={product.star_url}
+          />
         </CardContent>
       </CardActionArea>
     </Card>
