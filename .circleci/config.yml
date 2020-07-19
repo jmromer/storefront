@@ -1,0 +1,94 @@
+version: 2.1
+orbs:
+  ruby: circleci/ruby@0.1.2
+
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/ruby:2.7.1-node
+        environment:
+          RAILS_ENV: test
+          RACK_ENV: test
+          PGHOST: 127.0.0.1
+          PGUSER: root
+      - image: circleci/postgres:11.2
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: storefront_test
+    executor: ruby/default
+    steps:
+      - checkout
+
+      - restore_cache:
+          name: Restore bundler cache
+          keys:
+            - gem-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - gem-cache-v4-{{ arch }}-{{ .Branch }}
+            - gem-cache-v4-{{ arch }}
+            - gem-cache-v4
+
+      - restore_cache:
+          name: Restore yarn cache
+          keys:
+            - yarn-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-cache-v4-{{ arch }}-{{ .Branch }}
+            - yarn-cache-v4-{{ arch }}
+            - yarn-cache-v4
+
+      - run:
+          name: Set up assets cache key
+          command: find app/javascript -type f -exec md5sum {} \; > dependency_checksum
+
+      - restore_cache:
+          name: Restore assets cache
+          keys:
+            - assets-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "dependency_checksum" }}
+            - assets-cache-v4-{{ arch }}-{{ .Branch }}
+            - assets-cache-v4-{{ arch }}
+            - assets-cache-v4
+
+      - run:
+          name: Install bundler dependencies
+          command: |
+              gem install bundler:2.1.4
+              bundle check || bundle install --jobs=6 --retry=3 --path vendor/bundle
+
+      - run:
+          name: Install yarn dependencies
+          command: yarn install --ignore-engines --frozen-lockfile
+
+      - run:
+          name: Precompile assets
+          command: RAILS_ENV=test bundle exec rails webpacker:compile
+
+      - save_cache:
+          name: Save bundler cache
+          paths:
+            - vendor/bundle
+          key: gem-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+
+      - save_cache:
+          name: Save yarn cache
+          paths:
+            - ~/.cache/yarn
+          key: yarn-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+
+      - save_cache:
+          name: Save assets cache
+          paths:
+            - public/packs-test
+            - tmp/cache/webpacker
+          key: assets-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "dependency_checksum" }}
+
+      - run:
+          name: Wait for database
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Set up database
+          command: bundle exec rails db:drop db:create db:schema:load --trace
+
+      - run:
+          name: Run RSpec suite
+          command: bundle exec rails spec
