@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+Cart.destroy_all
+CartItem.destroy_all
+Product.destroy_all
+
 product_attrs = [
   {
     name: "Blue Flower",
@@ -22,9 +26,11 @@ product_attrs = [
 ]
 
 (1..10).each do |n|
-  product_attrs.each do |attrs|
-    product = Product.create(attrs.merge(name: "#{attrs[:name]} #{n}").except(:filename))
-    filename = attrs[:filename]
+  product_attrs.each do |product_attr|
+    filename = product_attr[:filename]
+    name = product_attr[:name] + " #{n.to_s.rjust(2)}"
+    attrs = product_attr.merge(name: name).except(:filename)
+    product = Product.create(attrs)
 
     product.image.attach(
       io: File.open(Rails.root.join("app/assets/images/#{filename}")),
